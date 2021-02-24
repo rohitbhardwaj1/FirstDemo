@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+<div class="form-horizontal">
+
+
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <div class="form-group">
+                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" name="Name" id="txtName" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("City", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" name="City" id="txtCity" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Address", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" name="Address" id="txtAddress" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Gender", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select name="Gender" id="ddlGender" style="width:170px;">
+                        <option value="Select">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <input type="button" id="btnAdd" onclick="Add('newtable')" class="btn btn-primary" value="Add" />
+
+                    
+                    <input type="button" name="btnDelete" value="Delete" onclick="removeRow('btnDelete')">
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <table class="table col-md-8" style="border:2px solid black" id="newtable">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>SrNo</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Address</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                        @*<tfoot>
+                            <tr>
+                                <td colspan="5" align="center">My Footer</td>
+                            </tr>
+                        </tfoot>*@
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function Add(table) {
+        var name = document.getElementById("txtName").value;
+        var city = document.getElementById("txtCity").value;
+        var address = document.getElementById("txtAddress").value;
+        var gender = document.getElementById("ddlGender").value;
+        //alert("sdfsd  " + gender);
+        var tbl = document.getElementById(table).getElementsByTagName('tbody')[0].insertRow(0);
+        //var rows = tbl.childElementCount;
+        var table = document.getElementById(table);
+        var rowCount = table.rows.length-2;
+        alert(rowCount);
+        //for (var i = 0; i < rows.length; i++) {
+        //    totalRowCount++;
+        //    if (rows[i].getElementsByTagName("td").length > 0) {
+        //        rowCount++;
+        //    }
+        //}
+        tbl.insertCell(0).innerHTML = rowCount+1;
+        tbl.insertCell(1) .innerHTML = name;
+        tbl.insertCell(2).innerHTML = city;
+        tbl.insertCell(3).innerHTML = address;
+        tbl.insertCell(4).innerHTML = gender;
+        
+    }
+    function removeRow(btnName) {
+        try {
+            var table = document.getElementById('dataTable');
+            var rowCount = table.rows.length;
+            for (var i = 0; i < rowCount; i++) {
+                var row = table.rows[i];
+                var rowObj = row.cells[0].childNodes[0];
+                if (rowObj.name == btnName) {
+                    table.deleteRow(i);
+                    rowCount--;
+                }
+            }
+        } catch (e) {
+            alert(e);
+        }
+    }
+    function addRow(tableID) {
+        var table = document.getElementById(tableID);
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+        //Column 1  
+        var cell1 = row.insertCell(0);
+        var element1 = document.createElement("input");
+        element1.type = "button";
+        var btnName = "button" + (rowCount + 1);
+        element1.name = btnName;
+        element1.setAttribute('value', 'Delete'); // or element1.value = "button";  
+        element1.onclick = function () {
+            removeRow(btnName);
+        }
+        cell1.appendChild(element1);
+        //Column 2  
+        var cell2 = row.insertCell(1);
+        cell2.innerHTML = rowCount + 1;
+        //Column 3  
+        var cell3 = row.insertCell(2);
+        var element3 = document.createElement("input");
+        element3.type = "text";
+        cell3.appendChild(element3);
+    }
+</script>

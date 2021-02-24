@@ -1,0 +1,183 @@
+﻿@using FirstDemo.Models
+@model StudentModel
+
+
+@{
+    ViewBag.Title = "Create";
+    Html.EnableClientValidation(true);
+}
+@if (Model != null)
+{
+    <input type="hidden" id="lblId" value="@Model.Id">
+    <h3>Update</h3>
+}
+else
+{
+    <h2>Create</h2>
+}
+
+@using (Html.BeginForm("Eite", "Student", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>@ViewBag.Message</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @Html.HiddenFor(model => model.Id)
+        <div class="row">
+            <div class="col-md-4">
+                <div class="user-profile-image" style="height:180px;width:220px;border:1px solid #ccc;">
+                    <input type="file" class="hidden" id="BroseImage" />
+                    <img src="~/Images/noimage.jpg" class="img-responsive" id="UserImage" />
+                    <div class="upload-photo">
+                        <img src="" class="img-responsive" />
+                    </div>
+                    <div class="remove-photo">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                </div>
+                <div> <img id = "user_img"
+                height = "100"
+                width = "90"
+                style = "border:solid"/> </div>
+                <div>
+                    <input type="file" title="search image" accept="image/png" id="file" name="file" onchange="show(this)" />
+                 </div>
+                </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @*<input class="form-control" id="Name" name="Name" type="text" value="@if (Model != null) { @Model.Name}" />*@
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.GenderId, (IEnumerable<SelectListItem>)ViewBag.GenList as SelectList, "Select Gender", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.Gender, "Male", new { @name = "gender" })
+                            Male
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.Gender, "Female", new { @name = "gender" })
+                            Female
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Hobbies</label>
+                    <div class="col-md-10">
+                        <label class="checkbox-inline">
+                            @*@Html.CheckBox("Movie",false)*@
+                            @Html.CheckBoxFor(model => model.IsMovie)
+                            Movie
+                        </label>
+                        <label class="checkbox-inline">
+                            @Html.CheckBoxFor(model => model.IsCricket)
+                            Cricket
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" id="btnSave" formaction="Create" class="btn btn-primary" />
+                        
+
+                        <input type="submit" value="Save & continue" id="btnSave2" class="btn btn-primary" />
+                        @if (Model != null)
+                        {
+                        <input type="button" title="Delete" class="btn btn-danger" value="Delete" onclick="location.href='@Url.Action("Delete", new {  id = Model.Id })'" />
+                        }
+                    </div>
+
+                    @*<div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Go Somewhere Else"
+                               onclick="location.href='<%: Url.Action("Edit", "StudentController" ) %>'" />*@
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+@*@if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+                $(function () {
+                    alert("@ViewBag.Message");
+                });
+        </script>
+    }*@
+
+
+
+<script type="text/javascript">
+
+    // var id = $('#lblId').html();
+    $(document).ready(
+        function () {
+
+            if ($('#lblId').val() == undefined) {
+                $('btnSave').val("Save");
+            }
+            else {
+                $('#btnSave').val("Update");
+            }
+        });
+
+</script>
+<script type="text/javascript">
+
+   function show(input) {
+      if (input.files && input.files[0]) {
+      var filerdr = new FileReader();
+      filerdr.onload = function (e) {
+         $('#user_img').attr('src', e.target.result);
+      }
+      filerdr.readAsDataURL(input.files[0]);
+   }
+}
+</script>  
